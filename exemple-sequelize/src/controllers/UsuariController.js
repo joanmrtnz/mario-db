@@ -1,5 +1,6 @@
 const { Usuari } = require('../models');
 const { logger } = require('../config/logger');
+const { Comentari, Video, Youtuber } = require('../models');
 
 const crearUsuari = async (req, res, next) => {
   try {
@@ -45,7 +46,7 @@ const crearUsuari = async (req, res, next) => {
         ]
       });
     }
-  
+
     const nouUsuari = await Usuari.create({
       username,
       email,
@@ -74,6 +75,49 @@ const crearUsuari = async (req, res, next) => {
   }
 };
 
+const llistarComentaris = async (req, res, next) => {
+  try {
+    const { id_usuari } = req.params;
+    logger.info(`Petició per obtenir comentaris de l'usuari amb ID: ${id_usuari}`);
+
+    const usuari = await Usuari.findByPk(id_usuari);
+    if (!usuari) {
+      return res.status(404).json({
+        ok: false,
+        missatge: `No s'ha trobat cap usuari amb l'ID: ${id_usuari}`
+      });
+    }
+
+    const comentaris = await Comentari.findAll({
+      where: { usuari_id: id_usuari },
+      attributes: ['id', 'contingut'],
+      include: [
+        {
+          model: Video,
+          attributes: ['id', 'titol', 'url_video'],
+          include: [
+            {
+              model: Youtuber,
+              attributes: ['nom_canal']
+            }
+          ]
+        }
+      ]
+    });
+
+    res.status(200).json({
+      ok: true,
+      missatge: "Comentaris de l'usuari obtinguts amb èxit",
+      resultat: comentaris
+    });
+
+  } catch (error) {
+    logger.error(`Error obtenint comentaris de l'usuari ${req.params.id_usuari}:`, error);
+    next(error);
+  }
+};
+
 module.exports = {
-  crearUsuari
+  crearUsuari,
+  llistarComentaris
 };

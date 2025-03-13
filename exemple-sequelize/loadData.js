@@ -93,7 +93,7 @@ async function carregarComentaris(comentaris) {
       await Comentari.create({
         id: comentari.id,
         contingut: comentari.contingut,
-        usuari_id: comentari.usuario_id,
+        usuari_id: comentari.usuari_id,
         video_id: comentari.video_id
       });
     }

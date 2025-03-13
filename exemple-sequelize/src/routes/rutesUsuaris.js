@@ -8,6 +8,7 @@ const router = express.Router();
 const usuariController = require('../controllers/UsuariController');
 
 router.post('/crear', usuariController.crearUsuari);
+router.get('/comentaris/:id_usuari', usuariController.llistarComentaris);
 
 /**
  * @swagger
