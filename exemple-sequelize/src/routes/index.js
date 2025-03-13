@@ -8,10 +8,12 @@ const router = express.Router();
 const rutesYoutuber = require('./rutesYoutuber');
 const rutesVideo = require('./rutesVideo');
 const rutesCategoria = require('./rutesCategoria');
+const rutesUsuaris = require('./rutesUsuaris');
 
 // Configuració de rutes
 router.use('/youtubers', rutesYoutuber);
 router.use('/videos', rutesVideo);
 router.use('/categories', rutesCategoria);
+router.use('/usuaris', rutesUsuaris);
 
 module.exports = router;
