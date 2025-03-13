@@ -1,7 +1,19 @@
+/**
+ * UsuariController.js
+ * Controlador per gestionar les operacions relacionades amb els usuaris
+ */
+
 const { Usuari } = require('../models');
 const { logger } = require('../config/logger');
 const { Comentari, Video, Youtuber } = require('../models');
 
+
+/**
+ * Crea un nou usuari a la base de dades
+ * @param {Object} req - Objecte de petició
+ * @param {Object} res - Objecte de resposta
+ * @param {Function} next - Funció següent del middleware
+ */
 const crearUsuari = async (req, res, next) => {
   try {
     const { username, email, password, nom, idioma } = req.body;
@@ -74,6 +86,13 @@ const crearUsuari = async (req, res, next) => {
     next(error);
   }
 };
+
+/**
+ * Obté tots els comentaris de un usuari la base de dades
+ * @param {Object} req - Objecte de petició
+ * @param {Object} res - Objecte de resposta
+ * @param {Function} next - Funció següent del middleware
+ */
 
 const llistarComentaris = async (req, res, next) => {
   try {
